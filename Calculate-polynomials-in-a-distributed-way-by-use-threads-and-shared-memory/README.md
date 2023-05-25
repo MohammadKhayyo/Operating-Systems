@@ -62,11 +62,9 @@ To compile the first part of the program, use the following command:
 
 gcc ex5a.c -o ex5a -pthread
 
-
 To run the compiled program, execute the following command:
 
 ./ex5a
-
 
 ### Second Part
 
@@ -74,11 +72,9 @@ To compile the second part of the program, use the following command:
 
 gcc ex5b.c -o ex5b
 
-
 To run the compiled program, execute the following command:
 
 ./ex5b
-
 
 ## Input
 
@@ -88,4 +84,4 @@ Both the first and second parts of the program require the following input forma
 
 For example:
 
-2x^3+13x^2+32*x^1+4, 3
+2x^3+13x^2+32\*x^1+4, 3
