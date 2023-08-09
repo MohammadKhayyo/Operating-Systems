@@ -1,94 +1,55 @@
-# Disk File System
+# Disk File System Simulation
 
-Authored By: Mohammad Khayyo
+## Background:
+Authored by Mohammad Khayyo, this project aims to provide a simplified simulation of a file system. It especially emphasizes on the understanding and implementation of the indexed allocation strategy commonly used in file systems.
 
-## Description
+## Description:
 
-In this exercise, we are doing a simulation of how the disk loads, saves, writes, reads the information into it. We are simulating indexed allocation and demonstrating the mechanism of how this method controls the disk system. The file has 3 classes: `fsFile`, `fsDisk`, and `FileDescriptor`.
+### Overview:
+- **Indexed Allocation Simulation**: This project demonstrates the inner workings of a file system that operates using an indexed allocation strategy.
+- **Core Components**: The simulation operates using three primary classes: `fsFile`, `FileDescriptor`, and `fsDisk`.
 
-- `fsFile`: A data structure that saves and stores the info of the file in the indexed allocation mechanism.
-- `FileDescriptor`: A class that contains the info of the file, filename, and a pointer of `fsFile` type for knowing info of the file, and a boolean variable that tells if the file is opened or closed.
-- `fsDisk`: This class simulates the disk itself and saves all the info. This class contains two main variables: `mainDir` and `OpenFileDescriptors`.
+### Classes:
+1. **`fsFile`**: Represents the data structure of a file stored using indexed allocation.
+2. **`FileDescriptor`**: Contains metadata about a file, such as its name, a pointer to its `fsFile` representation, and its status (open or closed).
+3. **`fsDisk`**: Emulates the entire file system. It includes two primary data structures: `MainDir` (representing the file table linking file names to their data) and `OpenFileDescriptors` (an array that monitors the currently open files).
 
-## Functions
+### Functions:
+The project consists of various utility functions to help in tasks like binary-to-decimal conversion and index block selection. Essential functions for the file system operations include:
 
-This project contains numerous functions for the operation of the disk file system. Please see the source code for detailed information on each function's operation, inputs, and outputs.
+- `listAll()`: Lists all the files and their details in the disk.
+- `fsFormat(int blockSize)`: Formats the disk.
+- `CreateFile(string fileName)`: Generates a new file.
+- `OpenFile(string fileName)`: Accesses an existing file.
+- `CloseFile(int fd)`: Shuts an opened file.
+- `WriteToFile(int fd, char *buf, int len)`: Records data to an open file.
+- `DelFile(string FileName)`: Erases a file.
+- `ReadFromFile(int fd, char *buf, int len)`: Fetches data from an open file.
 
-## Program Files
+For better object management, setters and getters exist for both `fsFile` and `FileDescriptor`.
 
-- `ex7_final_proj.2021.cpp`: Contains the implementations for function's and main.
+## Usage:
 
-## How to Compile
+### Compilation:
+To compile the program, utilize the following command:
+```
+g++ ex7_final_proj.2021.cpp -o ex7_final_proj.2021
+```
+For executing the compiled program:
+```
+./ex7_final_proj.2021
+```
 
-Compile: `g++ ex7_final_proj.2021.cpp -o ex7_final_proj.2021`
-Run: `./ex7_final_proj.2021`
+### Sample Sequence:
+The simulation allows users to:
 
-## Input and Output
+1. Format the disk.
+2. Construct three files: A, B, and C.
+3. Record data into file A.
+4. Enumerate all the files.
+5. Close and obliterate files.
+6. Extract data from file A.
 
-2
-4
-3
-A
-CreateFile: A with File Descriptor #: 0
-3
-B
-CreateFile: B with File Descriptor #: 1
-3
-C
-CreateFile: C with File Descriptor #: 2
-6
-0
-ABCDABCDABCD
-Writed: 12 Char's into File Descriptor #: 0
-6
-0
-YES
-Writed: 3 Char's into File Descriptor #: 0
-1
-index: 0: FileName: A , isInUse: 1
-index: 1: FileName: B , isInUse: 1
-index: 2: FileName: C , isInUse: 1
-Disk content: 'ABCDABCDABCDYES'
-6
-2
-QWERT
-Writed: 5 Char's into File Descriptor #: 2
-1
-index: 0: FileName: A , isInUse: 1
-index: 1: FileName: B , isInUse: 1
-index: 2: FileName: C , isInUse: 1
-Disk content: 'ABCDABCDABCDYESQWERT'
-5
-1
-CloseFile: 1 with File Descriptor #: 1
-1
-index: 0: FileName: A , isInUse: 1
-index: 1: FileName: B , isInUse: 0
-index: 2: FileName: C , isInUse: 1
-Disk content: 'ABCDABCDABCDYESQWERT'
-5
-2
-CloseFile: 1 with File Descriptor #: 2
-1
-index: 0: FileName: A , isInUse: 1
-index: 1: FileName: B , isInUse: 0
-index: 2: FileName: C , isInUse: 0
-Disk content: 'ABCDABCDABCDYESQWERT'
-8
-B
-DeletedFile: B with File Descriptor #: 1
-1
-index: 0: FileName: A , isInUse: 1
-index: 1: FileName: C , isInUse: 0
-Disk content: 'ABCDABCDABCDYESQWERT'
-8
-C
-DeletedFile: C with File Descriptor #: 1
-1
-index: 0: FileName: A , isInUse: 1
-Disk content: 'ABCDABCDABCDYES'
-7
-0
-50
-ReadFromFile: ABCDABCDABCDYES
-0
+## Program Files:
+
+- **ex7_final_proj.2021.cpp**: Contains the implementations for the function's and main.
