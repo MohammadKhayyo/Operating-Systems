@@ -1,5 +1,3 @@
-
-
 // the includes I used
 #include <iostream>
 
