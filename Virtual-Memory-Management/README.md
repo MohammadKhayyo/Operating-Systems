@@ -1,178 +1,55 @@
 # Virtual Memory Management
 
-### Authored by : Mohammad Khayyo
+## Background
+
+Virtual Memory Management is a memory and CPU simulation program that emulates the paging mechanism. Authored by Mohammad Khayyo, this simulator aims to showcase the process of paging out and fetching virtual memory into main memory based on the demands of the CPU.
 
 ## Description
-This exercise is a simulator of the memory and CPU methods, we use the paging mechanism, and virtual memory is paged out and fetched into main memory as needed.
-The exercise has a storage and loading function to simulate a CPU read/write, and the exercise uses a page table that defines the logic of the physical pages.
 
-## Functions
-This project includes the following functions:
-1. `load`
-2. `store`
-3. `repetition_count`
-4. `WriteThePageToSwap`
-5. `EmptyPlace`
-6. `print_memory`
-7. `print_swap`
-8. `print_page_table`
+The program comprises storage and loading functions that simulate a CPU's read/write mechanism. This simulation utilizes a page table that defines the logic of the physical pages. 
+
+### Key Features:
+- **Valid column** in the page table indicates if a particular page is present in memory.
+- **Dirty column** is an indicator of whether the page has been modified.
+- **Permission column** is used to denote if a page is readable or writable.
+- **Frame column** shows the location of the page in the main memory.
+- **Swap pointer column** is used to determine where to position the page in the swap file.
+
+The logical address produced by the CPU is separated into two components:
+1. Page number
+2. Page offset 
+
+Calculations for determining the page size and offset are based on the following formulas respectively:
+``` 
+page_size = size address / page_size
+offset = address % page_size
+```
+
+The program functions mainly in the paging style, employing a page table containing five main elements: (V) for Valid, (D) for Dirty, (P) for Permission, (F) for Frame, and (S) for Swap.
+
+## Usage
+
+The following functions are essential for the operation of the simulator:
+1. **load()** - Retrieves data from the logical memory to main memory for reading.
+2. **store()** - Fetches data from the logical memory to main memory to modify the value.
+3. **repetition_count()** - Searches for a page in a non-empty queue and deletes it if found.
+4. **WriteThePageToSwap()** - Transfers the page to the swap using the Least Recently Used (LRU) algorithm.
+5. **EmptyPlace()** - Returns an empty frame.
+6. **print_memory()** - Displays the memory's contents.
+7. **print_swap()** - Shows the contents of the swap.
+8. **print_page_table()** - Outputs the page table.
+
+A constructor (`sim_mem`) and a destructor (`~sim_mem`) are also provided for managing the simulator's lifecycle.
+
+### Compiling and Running:
+To compile and run the program:
+```
+g++ sim_mem.cpp main.cpp -o main
+./main
+```
 
 ## Program Files
-- `sim_mem.h`: Contains the header 
-- `sim_mem.cpp`: Contains the functions 
-- `main.cpp`: Contains the main function
 
-## Compilation Steps
-1. Compile: `g++ sim_mem.cpp main.cpp -o main`
-2. Run: `./main`
-
-## Output
-Output includes physical memory, swap memory, and page table information. 
-
-
- Physical memory
-[P]
-[Q]
-[P]
-[P]
-[P]
-[c]
-[c]
-[c]
-[c]
-[c]
-
- Swap memory
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-
- page table 
-Valid	 Dirty	 Permission 	 Frame	 Swap index
-[0]		[0]			[0]			[-1]		[-1]
-[0]		[0]			[0]			[-1]		[-1]
-[1]		[1]			[1]			[0]		[-1]
-[1]		[0]			[1]			[1]		[-1]
-[0]		[0]			[1]			[-1]		[-1]
-[0]		[0]			[1]			[-1]		[-1]
-[0]		[0]			[1]			[-1]		[-1]
-
- Physical memory
-[0]
-[0]
-[k]
-[0]
-[0]
-[0]
-[0]
-[X]
-[0]
-[0]
-
- Swap memory
-0 - [P]	1 - [Q]	2 - [P]	3 - [P]	4 - [P]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-
- page table 
-Valid	 Dirty	 Permission 	 Frame	 Swap index
-[0]		[0]			[0]			[-1]		[-1]
-[0]		[0]			[0]			[-1]		[-1]
-[0]		[1]			[1]			[-1]		[0]
-[0]		[0]			[1]			[-1]		[-1]
-[0]		[0]			[1]			[-1]		[-1]
-[1]		[1]			[1]			[1]		[-1]
-[1]		[1]			[1]			[0]		[-1]
-
- Physical memory
-[b]
-[b]
-[b]
-[b]
-[b]
-[P]
-[Q]
-[P]
-[P]
-[P]
-
- Swap memory
-0 - [0]	1 - [0]	2 - [X]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [k]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-
- page table 
-Valid	 Dirty	 Permission 	 Frame	 Swap index
-[0]		[0]			[0]			[-1]		[-1]
-[1]		[0]			[0]			[0]		[-1]
-[1]		[1]			[1]			[1]		[-1]
-[0]		[0]			[1]			[-1]		[-1]
-[0]		[0]			[1]			[-1]		[-1]
-[0]		[1]			[1]			[-1]		[0]
-[0]		[1]			[1]			[-1]		[1]
-
- Physical memory
-[0]
-[0]
-[k]
-[0]
-[k]
-[0]
-[0]
-[x]
-[0]
-[0]
-
- Swap memory
-0 - [P]	1 - [Q]	2 - [P]	3 - [P]	4 - [P]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-
- page table 
-Valid	 Dirty	 Permission 	 Frame	 Swap index
-[0]		[0]			[0]			[-1]		[-1]
-[0]		[0]			[0]			[-1]		[-1]
-[0]		[1]			[1]			[-1]		[0]
-[0]		[0]			[1]			[-1]		[-1]
-[0]		[0]			[1]			[-1]		[-1]
-[1]		[1]			[1]			[1]		[-1]
-[1]		[1]			[1]			[0]		[-1]
-
- Physical memory
-[b]
-[b]
-[b]
-[b]
-[b]
-[P]
-[Q]
-[P]
-[P]
-[P]
-
- Swap memory
-0 - [0]	1 - [0]	2 - [x]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [k]	3 - [0]	4 - [k]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-0 - [0]	1 - [0]	2 - [0]	3 - [0]	4 - [0]	
-
- page table 
-Valid	 Dirty	 Permission 	 Frame	 Swap index
-[0]		[0]			[0]			[-1]		[-1]
-[1]		[0]			[0]			[0]		[-1]
-[1]		[1]			[1]			[1]		[-1]
-[0]		[0]			[1]			[-1]		[-1]
-[0]		[0]			[1]			[-1]		[-1]
-[0]		[1]			[1]			[-1]		[0]
-[0]		[1]			[1]			[-1]		[1]
-
-
+- **sim_mem.h**: Contains the header definitions.
+- **sim_mem.cpp**: Houses the implementations of the functions.
+- **main.cpp**: The main driver code for the simulator.
